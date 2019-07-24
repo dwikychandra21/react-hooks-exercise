@@ -1,10 +1,12 @@
-import React, { Fragment, useState, useEffect, useReducer } from "react";
+import React, { Fragment, useState, useEffect, useReducer, useRef } from "react";
 import axios from "axios";
 
 const Todo = () => {
-  const [todoName, setTodoName] = useState("");
+//   const [todoName, setTodoName] = useState("");
   //   const [todoList, setTodoList] = useState([]);
   //   const [submittedTodo, setSubmittedTodo] = useState(false);
+
+  const todoInputRef = useRef();
 
   const todoListReducer = (state, action) => {
     switch (action.type) {
@@ -58,11 +60,13 @@ const Todo = () => {
   //     }
   //   }, [submittedTodo]);
 
-  const hanleTodoChange = event => {
-    setTodoName(event.target.value);
-  };
+//   const hanleTodoChange = event => {
+//     setTodoName(event.target.value);
+//   };
 
   const handleAddTodo = () => {
+    const todoName = todoInputRef.current.value;
+
     axios
       .post("https://react-hooks-exercise.firebaseio.com/todos.json", {
         name: todoName
@@ -95,7 +99,7 @@ const Todo = () => {
 
   return (
     <Fragment>
-      <input type="text" onChange={hanleTodoChange} value={todoName} />
+      <input type="text" ref={todoInputRef} />
       <button type="button" onClick={handleAddTodo}>
         Add
       </button>
